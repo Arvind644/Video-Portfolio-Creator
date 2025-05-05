@@ -55,7 +55,7 @@ export default function Home() {
       </main>
 
       <footer className="mt-20 text-center text-sm text-gray-500">
-        <p>Powered by Luma Labs and Next.js</p>
+        <p>Powered by <a href="https://lumalabs.ai" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">Luma Labs</a> and <a href="https://buildclub.ai" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">Build Club</a></p>
       </footer>
     </div>
   );
