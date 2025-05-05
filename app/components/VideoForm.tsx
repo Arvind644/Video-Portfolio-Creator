@@ -123,7 +123,7 @@ export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Describe the professional video you want to create..."
           required
-          className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[120px]"
+          className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[120px] bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
         />
       </div>
 
@@ -139,12 +139,12 @@ export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
             id="aspectRatio"
             value={aspectRatio}
             onChange={(e) => setAspectRatio(e.target.value as AspectRatio)}
-            className="w-full p-3 border rounded-lg"
+            className="w-full p-3 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
           >
-            <option value="16:9">Landscape (16:9)</option>
-            <option value="9:16">Portrait (9:16)</option>
-            <option value="1:1">Square (1:1)</option>
-            <option value="4:3">Standard (4:3)</option>
+            <option value="16:9" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">Landscape (16:9)</option>
+            <option value="9:16" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">Portrait (9:16)</option>
+            <option value="1:1" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">Square (1:1)</option>
+            <option value="4:3" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">Standard (4:3)</option>
           </select>
         </div>
 
@@ -159,11 +159,11 @@ export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
             id="model"
             value={model}
             onChange={(e) => setModel(e.target.value as ModelType)}
-            className="w-full p-3 border rounded-lg"
+            className="w-full p-3 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
           >
-            <option value="ray-2">Ray 2 (Default)</option>
-            <option value="ray-flash-2">Ray Flash 2</option>
-            <option value="ray-1-6">Ray 1.6</option>
+            <option value="ray-2" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">Ray 2 (Default)</option>
+            <option value="ray-flash-2" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">Ray Flash 2</option>
+            <option value="ray-1-6" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">Ray 1.6</option>
           </select>
         </div>
       </div>
@@ -181,10 +181,10 @@ export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
               id="duration"
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
-              className="w-full p-3 border rounded-lg"
+              className="w-full p-3 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
             >
-              <option value="5s">5 seconds</option>
-              <option value="9s">9 seconds</option>
+              <option value="5s" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">5 seconds</option>
+              <option value="9s" className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">9 seconds</option>
             </select>
           </div>
         )}
@@ -204,7 +204,7 @@ export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
       </div>
 
       {error && (
-        <div className="text-red-500 text-sm p-2 bg-red-50 rounded-lg">
+        <div className="text-red-500 text-sm p-2 bg-red-50 dark:bg-red-900/20 rounded-lg">
           {error}
         </div>
       )}
