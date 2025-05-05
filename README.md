@@ -6,7 +6,7 @@ A Next.js application for generating professional portfolio videos using Luma La
 
 - Generate videos from text descriptions
 - Multiple aspect ratio options
-- Video duration selection
+- Video duration selection (for Ray 2 and Ray Flash 2 models)
 - AI model selection (Luma Ray versions)
 - Loop video option
 - Real-time status updates
@@ -48,8 +48,11 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 1. Enter a detailed description of the video you want to create
 2. Select the desired aspect ratio (16:9, 9:16, 1:1, or 4:3)
-3. Choose an AI model version (Ray 1.6, Ray 2, or Ray Flash 2)
-4. Select a video duration (5s or 9s)
+3. Choose an AI model version:
+   - Ray 2 (Default) - Higher quality with duration control
+   - Ray Flash 2 - Faster generation with duration control
+   - Ray 1.6 - Standard quality, no duration control
+4. If using Ray 2 or Ray Flash 2, select a video duration (5s or 9s)
 5. Toggle the loop option if you want the video to loop
 6. Click "Generate Video"
 7. Wait for the video to be generated (this usually takes 1-2 minutes)

@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
       aspectRatio = '16:9', 
       loop = false,
       model = 'ray-2',
-      duration = '4s'
+      duration
     } = await request.json();
 
     if (!prompt) {
@@ -27,14 +27,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const client = getLumaClient();
-    const generation = await client.generations.create({
+    // Prepare generation parameters
+    const generationParams: any = {
       prompt,
       aspect_ratio: aspectRatio,
       loop,
       model,
-      duration,
-    });
+    };
+
+    // Only include duration for models that support it (Ray 2 and Ray Flash 2)
+    if (duration && (model === 'ray-2' || model === 'ray-flash-2')) {
+      generationParams.duration = duration;
+    }
+
+    const client = getLumaClient();
+    const generation = await client.generations.create(generationParams);
 
     return NextResponse.json({ generationId: generation.id });
   } catch (error) {

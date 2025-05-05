@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { VideoData, pollGenerationStatus } from '../utils/luma';
 
 interface VideoFormProps {
@@ -15,10 +15,22 @@ export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
   const [prompt, setPrompt] = useState('');
   const [aspectRatio, setAspectRatio] = useState('16:9');
   const [loop, setLoop] = useState(false);
-  const [model, setModel] = useState('ray-1-6');
+  const [model, setModel] = useState('ray-2');
   const [duration, setDuration] = useState('5s');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Check if duration should be shown based on model selection
+  const showDuration = model === 'ray-2' || model === 'ray-flash-2';
+  
+  // Reset duration if switching to a model that doesn't support it
+  useEffect(() => {
+    if (!showDuration) {
+      setDuration('');
+    } else if (duration === '') {
+      setDuration('5s');
+    }
+  }, [model, showDuration, duration]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,19 +38,26 @@ export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
     setError(null);
 
     try {
+      // Prepare request body based on model selection
+      const requestBody: any = {
+        prompt,
+        aspectRatio,
+        loop,
+        model,
+      };
+      
+      // Only include duration for models that support it
+      if (showDuration) {
+        requestBody.duration = duration;
+      }
+      
       // Submit the generation request
       const response = await fetch('/api/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          prompt,
-          aspectRatio,
-          loop,
-          model,
-          duration,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
@@ -55,7 +74,7 @@ export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
         state: 'pending',
         videoUrl: null,
         model,
-        duration,
+        duration: showDuration ? duration : undefined,
       };
       
       addVideo(newVideo);
@@ -127,33 +146,35 @@ export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
             onChange={(e) => setModel(e.target.value)}
             className="w-full p-3 border rounded-lg"
           >
-            <option value="ray-1-6">Ray 1.6 (Default)</option>
-            <option value="ray-2">Ray 2</option>
-            <option value="ray-flash-2">Ray flash 2</option>
+            <option value="ray-2">Ray 2 (Default)</option>
+            <option value="ray-flash-2">Ray Flash 2</option>
+            <option value="ray-1-6">Ray 1.6</option>
           </select>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label 
-            htmlFor="duration" 
-            className="block text-sm font-medium mb-2"
-          >
-            Duration
-          </label>
-          <select
-            id="duration"
-            value={duration}
-            onChange={(e) => setDuration(e.target.value)}
-            className="w-full p-3 border rounded-lg"
-          >
-            <option value="5s">5 seconds</option>
-            <option value="9s">9 seconds</option>
-          </select>
-        </div>
+        {showDuration && (
+          <div>
+            <label 
+              htmlFor="duration" 
+              className="block text-sm font-medium mb-2"
+            >
+              Duration
+            </label>
+            <select
+              id="duration"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              className="w-full p-3 border rounded-lg"
+            >
+              <option value="5s">5 seconds</option>
+              <option value="9s">9 seconds</option>
+            </select>
+          </div>
+        )}
 
-        <div className="flex items-center sm:items-end sm:pb-3 h-full">
+        <div className={`flex items-center ${showDuration ? 'sm:items-end sm:pb-3 h-full' : ''}`}>
           <input
             type="checkbox"
             id="loop"
