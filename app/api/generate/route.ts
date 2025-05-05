@@ -1,6 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { LumaAI } from 'lumaai';
 
+// Define type for supported aspect ratios
+type AspectRatio = '16:9' | '1:1' | '9:16' | '4:3' | '3:4' | '21:9' | '9:21';
+
+// Define type for supported models
+type ModelType = 'ray-2' | 'ray-flash-2' | 'ray-1-6';
+
+// Define interface for generation parameters
+interface GenerationParams {
+  prompt: string;
+  aspect_ratio: AspectRatio;
+  loop: boolean;
+  model: ModelType;
+  duration?: string;
+}
+
 // Initialize the LumaAI client
 const getLumaClient = () => {
   const apiKey = process.env.LUMAAI_API_KEY;
@@ -28,11 +43,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Prepare generation parameters
-    const generationParams: any = {
+    const generationParams: GenerationParams = {
       prompt,
-      aspect_ratio: aspectRatio,
+      aspect_ratio: aspectRatio as AspectRatio,
       loop,
-      model,
+      model: model as ModelType,
     };
 
     // Only include duration for models that support it (Ray 2 and Ray Flash 2)

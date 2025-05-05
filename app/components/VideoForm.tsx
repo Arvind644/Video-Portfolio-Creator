@@ -3,6 +3,21 @@
 import { useState, useEffect } from 'react';
 import { VideoData, pollGenerationStatus } from '../utils/luma';
 
+// Define type for supported aspect ratios
+type AspectRatio = '16:9' | '1:1' | '9:16' | '4:3' | '3:4' | '21:9' | '9:21';
+
+// Define type for supported models
+type ModelType = 'ray-2' | 'ray-flash-2' | 'ray-1-6';
+
+// Define interface for request body
+interface RequestBody {
+  prompt: string;
+  aspectRatio: AspectRatio;
+  loop: boolean;
+  model: ModelType;
+  duration?: string;
+}
+
 interface VideoFormProps {
   addVideo: (video: VideoData) => void;
   updateVideo: (
@@ -13,9 +28,9 @@ interface VideoFormProps {
 
 export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
   const [prompt, setPrompt] = useState('');
-  const [aspectRatio, setAspectRatio] = useState('16:9');
+  const [aspectRatio, setAspectRatio] = useState<AspectRatio>('16:9');
   const [loop, setLoop] = useState(false);
-  const [model, setModel] = useState('ray-2');
+  const [model, setModel] = useState<ModelType>('ray-2');
   const [duration, setDuration] = useState('5s');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,7 +54,7 @@ export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
 
     try {
       // Prepare request body based on model selection
-      const requestBody: any = {
+      const requestBody: RequestBody = {
         prompt,
         aspectRatio,
         loop,
@@ -123,7 +138,7 @@ export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
           <select
             id="aspectRatio"
             value={aspectRatio}
-            onChange={(e) => setAspectRatio(e.target.value)}
+            onChange={(e) => setAspectRatio(e.target.value as AspectRatio)}
             className="w-full p-3 border rounded-lg"
           >
             <option value="16:9">Landscape (16:9)</option>
@@ -143,7 +158,7 @@ export default function VideoForm({ addVideo, updateVideo }: VideoFormProps) {
           <select
             id="model"
             value={model}
-            onChange={(e) => setModel(e.target.value)}
+            onChange={(e) => setModel(e.target.value as ModelType)}
             className="w-full p-3 border rounded-lg"
           >
             <option value="ray-2">Ray 2 (Default)</option>
