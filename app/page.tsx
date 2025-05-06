@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import VideoForm from './components/VideoForm';
 import VideoGallery from './components/VideoGallery';
 
@@ -34,6 +35,16 @@ export default function Home() {
 
   return (
     <div className="min-h-screen p-8 font-[family-name:var(--font-geist-sans)]">
+      <div className="top-4 left-4 z-10">
+        <Image 
+          src="/buildclub-long.png" 
+          alt="Build Club Logo" 
+          width={180} 
+          height={50} 
+          className="h-auto"
+        />
+      </div>
+      
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold mb-2">AI Video Portfolio Creator</h1>
         <p className="text-gray-600 dark:text-gray-300">
